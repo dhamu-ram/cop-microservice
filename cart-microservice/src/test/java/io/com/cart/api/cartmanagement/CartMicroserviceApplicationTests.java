@@ -1,0 +1,13 @@
+package io.com.cart.api.cartmanagement;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class CartMicroserviceApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
