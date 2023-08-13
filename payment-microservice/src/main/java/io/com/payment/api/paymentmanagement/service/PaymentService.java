@@ -60,13 +60,21 @@ public class PaymentService {
     public String makePayment(Long walletId, double amount) throws InsufficientBalanceException {
         Optional<Wallet> wallet = walletRepository.findById(walletId);
 
-        if (wallet.get().getBalance() < amount) {
-            LOGGER.error("Insufficient balance in the wallet");
-            throw new InsufficientBalanceException("Insufficient balance in the wallet");
+        double newBalance = 0;
+
+        if(wallet.isPresent()) {
+            double balance = wallet.get().getBalance();
+
+            if (balance < amount) {
+                LOGGER.error("Insufficient balance in the wallet");
+                throw new InsufficientBalanceException("Insufficient balance in the wallet");
+            }
+
+            newBalance = balance - amount;
+            wallet.get().setBalance(newBalance);
+            walletRepository.save(wallet.get());
         }
-        double newBalance = wallet.get().getBalance() - amount;
-        wallet.get().setBalance(newBalance);
-        walletRepository.save(wallet.get());
+
         return String.format("Payment done successfully. Balance in your account is %s", newBalance);
     }
 
