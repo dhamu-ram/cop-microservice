@@ -24,7 +24,7 @@ public class PaymentService {
     private WalletRepository walletRepository;
 
     /**
-     * The MongoTemplate object.
+     * The Mongodb Template object.
      */
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -45,37 +45,41 @@ public class PaymentService {
      * @return the added wallet details.
      */
     public Wallet addWallet(Wallet wallet) {
-        wallet.setId(sequenceGenerator.generateSequence(wallet.SEQUENCE_NAME));
+        wallet.setId(sequenceGenerator.generateSequence(Wallet.SEQUENCE_NAME));
         return walletRepository.save(wallet);
     }
 
     public void deleteWallet(Long walletId) throws NotFoundException {
         Optional<Wallet> wallet = walletRepository.findById(walletId);
-        if(!wallet.isPresent()) {
+        if(wallet.isEmpty()) {
             throw new NotFoundException(String.format("wallet is not found for id ", walletId));
         }
         walletRepository.deleteById(walletId);
     }
 
     public String makePayment(Long walletId, double amount) throws InsufficientBalanceException {
-        Wallet wallet = walletRepository.findById(walletId).get();
+        Optional<Wallet> wallet = walletRepository.findById(walletId);
 
-        if (wallet.getBalance() < amount) {
+        if (wallet.get().getBalance() < amount) {
             LOGGER.error("Insufficient balance in the wallet");
             throw new InsufficientBalanceException("Insufficient balance in the wallet");
         }
-        double newBalance = wallet.getBalance() - amount;
-        wallet.setBalance(newBalance);
-        walletRepository.save(wallet);
+        double newBalance = wallet.get().getBalance() - amount;
+        wallet.get().setBalance(newBalance);
+        walletRepository.save(wallet.get());
         return String.format("Payment done successfully. Balance in your account is %s", newBalance);
     }
 
     public Wallet setDefaultWallet(Long walletId, Long userId) {
         Query query = new Query(Criteria.where("userId").is(userId).and("isDefault").is(false));
-        Wallet defaultWallet = mongoTemplate.findOne(query, Wallet.class);
+        Optional<Wallet> defaultWallet = Optional.ofNullable(mongoTemplate.findOne(query, Wallet.class));
 
-        defaultWallet.setIsDefault(true);
-        return walletRepository.save(defaultWallet);
+        if (defaultWallet.isPresent()) {
+            defaultWallet.get().setIsDefault(true);
+            defaultWallet.get().setId(walletId);
+        }
+
+        return walletRepository.save(defaultWallet.get());
     }
 
 }
