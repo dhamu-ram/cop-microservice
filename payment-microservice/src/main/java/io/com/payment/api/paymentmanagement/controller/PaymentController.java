@@ -29,6 +29,10 @@ public class PaymentController {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentController.class);
 
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
     @PostMapping("/wallet")
     public Wallet addWallet(@RequestBody Wallet wallet) {
         LOGGER.info("Request received to add wallet for {}", wallet);
@@ -41,21 +45,20 @@ public class PaymentController {
     public String deleteWallet(@PathVariable Long walletId) throws NotFoundException {
         LOGGER.info("Request received to delete wallet for {}", walletId);
         paymentService.deleteWallet(walletId);
-        String response = String.format("Wallet details removed successfully for %d", walletId);
-        return response;
+        return String.format("Wallet details removed successfully for %d", walletId);
     }
 
     @PostMapping("/{walletId}")
     public String makePayment(@PathVariable Long walletId, @RequestBody PaymentRequestDTO paymentRequestDTO) throws InsufficientBalanceException {
         LOGGER.info("Request received to make payment for {}", paymentRequestDTO.toString());
         String response = paymentService.makePayment(walletId, paymentRequestDTO.getAmount());
-        LOGGER.info("Successfully payment done for {}", paymentRequestDTO.toString());
+        LOGGER.info("Successfully payment done for {}", paymentRequestDTO);
         return response;
     }
 
     @PutMapping("/wallet/{walletId}/default/{userId}")
     public Wallet setDefaultWallet(@PathVariable Long walletId, @PathVariable Long userId) {
-        LOGGER.info("Request recieved to set wallet as default for {}", walletId);
+        LOGGER.info("Request received to set wallet as default for {}", walletId);
         Wallet defaultWallet = paymentService.setDefaultWallet(walletId, userId);
         LOGGER.info("Successfully set wallet as default payment mode");
         return defaultWallet;

@@ -81,13 +81,17 @@ public class PaymentService {
     public Wallet setDefaultWallet(Long walletId, Long userId) {
         Query query = new Query(Criteria.where("userId").is(userId).and("isDefault").is(false));
         Optional<Wallet> defaultWallet = Optional.ofNullable(mongoTemplate.findOne(query, Wallet.class));
-
+        
+        Wallet wallet = null;
+        
         if (defaultWallet.isPresent()) {
             defaultWallet.get().setIsDefault(true);
             defaultWallet.get().setId(walletId);
+            wallet = walletRepository.save(defaultWallet.get());
         }
-
-        return walletRepository.save(defaultWallet.get());
+        
+        return wallet;
+        
     }
 
 }
