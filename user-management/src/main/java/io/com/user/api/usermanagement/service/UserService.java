@@ -23,15 +23,19 @@ import java.util.Optional;
 public class UserService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
 	/**
      * The logger object for creating system logs.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-    
-	
-    /**
+
+	public UserService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+
+	/**
 	 * Adds a new user based on the provided user input DTO.
 	 * @param userInDto The input DTO containing user information.
 	 * @return The output DTO representing the added user.
@@ -61,6 +65,7 @@ public class UserService {
 	 * @return The output DTO representing the user.
 	 */
 	private UserOutDto prepareOutDto(User user) {
+		LOGGER.info(">>> prepareOutDto");
 		UserOutDto userOutDto = new UserOutDto();
 		userOutDto.setUserId(user.getUserId());
 		userOutDto.setUserName(user.getUserName());
@@ -83,9 +88,9 @@ public class UserService {
 	 * @throws UserNotFoundException If the user with the given ID is not found.
 	 */
 	    public UserOutDto updateUser(final long id, final UserInDto userInDto) throws UserNotFoundException {
-	        User user = new User();
+	        User user;
 	        Optional<User> findById = userRepository.findById(id);
-	        if(!findById.isPresent()){
+	        if(findById.isEmpty()){
 	        	throw new UserNotFoundException("User Not found");
 	        }
 	        user = findById.get();
@@ -130,7 +135,7 @@ public class UserService {
 		 */
 	    public User getUserById(Long id) throws UserNotFoundException {
 	        Optional<User> findById = userRepository.findById(id);
-	        if(!findById.isPresent()){
+	        if(findById.isEmpty()){
 	        	throw new UserNotFoundException("User Not found");
 	        }
 	        return userRepository.findById(id).orElse(null);
@@ -142,9 +147,9 @@ public class UserService {
 		 * @throws UserNotFoundException If the user with the given ID is not found.
 		 */
 	    public void deleteUser(Long id) throws UserNotFoundException {
-	    	User user = new User();
+
 	        Optional<User> findById = userRepository.findById(id);
-	        if(!findById.isPresent()){
+	        if(findById.isEmpty()){
 	        	throw new UserNotFoundException("User Not found");
 	        }
 	        userRepository.deleteById(id);
