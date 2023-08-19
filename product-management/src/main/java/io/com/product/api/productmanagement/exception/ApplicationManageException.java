@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class ApplicationManageException {
+public class ApplicationManageException extends Exception{
 
-	
-	/**
+    private static final long serialVersißonUID = 8371648338883940608L;
+
+    /**
      * {@summary getProjectNotFound method is for throw the exception response when
      * project not found. }
      * @param exception if project not found

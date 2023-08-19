@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/io.com.order.api.ordermanagement.order-microservice.main.iml" filepath="$PROJECT_DIR$/.idea/modules/io.com.order.api.ordermanagement.order-microservice.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/io.com.payment.api.paymentmanagement.Payment-microservice.main.iml" filepath="$PROJECT_DIR$/.idea/modules/io.com.payment.api.paymentmanagement.Payment-microservice.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-microservice.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-microservice.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/payment-microservice.Payment-microservice.main.iml" filepath="$PROJECT_DIR$/.idea/modules/payment-microservice.Payment-microservice.main.iml" />
     </modules>
   </component>
 </project>
