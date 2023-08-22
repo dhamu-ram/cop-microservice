@@ -13,7 +13,7 @@ import lombok.*;
  * It contains the details of a product to be created or updated.
  * @author abhis
  */
-public class ProductInDto {
+public class ProductInDTO {
 	
 	/**
 	 * The ID of the product.
