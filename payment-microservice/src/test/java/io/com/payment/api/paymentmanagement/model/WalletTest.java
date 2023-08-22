@@ -10,12 +10,12 @@ public class WalletTest {
 	public void testGetterAndSetter() {
 		Wallet wallet = new Wallet();
 		assertNull(wallet.getId());
-		Long id = 1l;
+		Long id = 1L;
 		wallet.setId(id);
 		assertEquals(id, wallet.getId());
 		
 		assertNull(wallet.getUserId());
-		Long userId = 1l;
+		Long userId = 1L;
 		wallet.setUserId(userId);
 		assertEquals(userId, wallet.getUserId());
 		
@@ -37,8 +37,8 @@ public class WalletTest {
 
 	@Test
 	public void testEqualAndHashCode() {
-		Long id = 1l;
-		Long userId = 1l;
+		Long id = 1L;
+		Long userId = 1L;
 		String cardNumber = "XXXXXXXXXXXXXXXX";
 		Double balance = 13343.0;
 		Boolean isDefault = true;
@@ -80,8 +80,8 @@ public class WalletTest {
 
 	@Test
 	public void testToString() {
-		Long id = 1l;
-		Long userId = 1l;
+		Long id = 1L;
+		Long userId = 1L;
 		String cardNumber = "XXXXXXXXXXXXXXXX";
 		Double balance = 13343.0;
 		Boolean isDefault = true;

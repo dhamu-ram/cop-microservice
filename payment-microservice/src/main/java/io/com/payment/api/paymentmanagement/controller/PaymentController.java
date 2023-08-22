@@ -22,7 +22,7 @@ public class PaymentController {
      * The paymentService object.
      */
     @Autowired
-    private PaymentService paymentService;
+    private final PaymentService paymentService;
 
     /**
      * The Logger.

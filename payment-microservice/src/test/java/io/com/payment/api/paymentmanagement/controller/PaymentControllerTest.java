@@ -42,7 +42,7 @@ public class PaymentControllerTest {
 	}
 
 	@Test
-	public void testAddWallet() throws JsonProcessingException, Exception {
+	public void testAddWallet() throws Exception {
 		Wallet wallet = new Wallet();
 		wallet.setBalance(12345.0);
 		wallet.setCardNumber("XXXXXXXXXXX2341");
@@ -72,7 +72,7 @@ public class PaymentControllerTest {
 	}
 
 	@Test
-	public void testMakePayment() throws JsonProcessingException, Exception {
+	public void testMakePayment() throws Exception {
 		PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO();
 		paymentRequestDTO.setAmount(1290.0);
 		String expectedMessage = String.format("Payment done successfully. Balance in your account is %s", 1425360.45);
